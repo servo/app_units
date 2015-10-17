@@ -1,0 +1,18 @@
+[package]
+name = "app_units"
+version = "0.1.0"
+authors = ["The Servo Project Developers"]
+description = "Servo app units type (Au)"
+documentation = "http://doc.servo.org/app_units/"
+repository = "https://github.com/servo/app_units"
+license = "MPL-2.0"
+
+[features]
+default = []
+plugins = ["serde", "serde_macros", "euclid/plugins"]
+
+[dependencies]
+serde = {version = "0.6", optional = true}
+serde_macros = {version = "0.5", optional = true}
+rustc-serialize = "0.3"
+euclid = "0.3"
