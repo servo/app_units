@@ -5,10 +5,11 @@
 #![feature(custom_derive)]
 #![feature(plugin)]
 
-#![plugin(serde_macros)]
+#![cfg_attr(feature = "plugins", plugin(serde_macros))]
 
 extern crate euclid;
 extern crate rustc_serialize;
+#[cfg(feature = "plugins")]
 extern crate serde;
 
 mod app_unit;
