@@ -123,6 +123,12 @@ impl Au {
         self.0 / AU_PER_PX
     }
 
+    /// Ceil this app unit to the appropriate pixel boundary and return it.
+    #[inline]
+    pub fn ceil_to_px(self) -> i32 {
+        ((self.0 as f64) / (AU_PER_PX as f64)).ceil() as i32
+    }
+
     #[inline]
     pub fn to_nearest_px(self) -> i32 {
         ((self.0 as f64) / (AU_PER_PX as f64)).round() as i32
