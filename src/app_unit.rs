@@ -159,3 +159,99 @@ impl Au {
         Au((px * (AU_PER_PX as f64)) as i32)
     }
 }
+
+#[test]
+fn create() {
+    assert_eq!(Au::zero(), Au(0));
+    assert_eq!(Au::default(), Au(0));
+    assert_eq!(Au::new(7), Au(7));
+}
+
+#[test]
+fn operations() {
+    assert_eq!(Au(7) + Au(5), Au(12));
+    assert_eq!(MAX_AU + Au(1), MIN_AU);
+
+    assert_eq!(Au(7) - Au(5), Au(2));
+    assert_eq!(MIN_AU - Au(1), MAX_AU);
+
+    assert_eq!(Au(7) * 5, Au(35));
+    assert_eq!(MAX_AU * -1, MIN_AU + Au(1));
+    assert_eq!(MIN_AU * -1, MIN_AU);
+
+    assert_eq!(Au(35) / 5, Au(7));
+    assert_eq!(Au(35) % 6, Au(5));
+
+    assert_eq!(-Au(7), Au(-7));
+}
+
+#[test]
+#[should_panic]
+fn overflowing_div() {
+    MIN_AU / -1;
+}
+
+#[test]
+#[should_panic]
+fn overflowing_rem() {
+    MIN_AU % -1;
+}
+
+#[test]
+fn scale() {
+    assert_eq!(Au(12).scale_by(1.5), Au(18));
+}
+
+#[test]
+fn convert() {
+    assert_eq!(Au::from_px(5), Au(300));
+
+    assert_eq!(Au(300).to_px(), 5);
+    assert_eq!(Au(330).to_px(), 5);
+    assert_eq!(Au(350).to_px(), 5);
+    assert_eq!(Au(360).to_px(), 6);
+
+    assert_eq!(Au(300).ceil_to_px(), 5);
+    assert_eq!(Au(310).ceil_to_px(), 6);
+    assert_eq!(Au(330).ceil_to_px(), 6);
+    assert_eq!(Au(350).ceil_to_px(), 6);
+    assert_eq!(Au(360).ceil_to_px(), 6);
+
+    assert_eq!(Au(300).to_nearest_px(), 5);
+    assert_eq!(Au(310).to_nearest_px(), 5);
+    assert_eq!(Au(330).to_nearest_px(), 6);
+    assert_eq!(Au(350).to_nearest_px(), 6);
+    assert_eq!(Au(360).to_nearest_px(), 6);
+
+    assert_eq!(Au(60).to_nearest_pixel(2.), 1.);
+    assert_eq!(Au(70).to_nearest_pixel(2.), 1.);
+    assert_eq!(Au(80).to_nearest_pixel(2.), 1.5);
+    assert_eq!(Au(90).to_nearest_pixel(2.), 1.5);
+    assert_eq!(Au(100).to_nearest_pixel(2.), 1.5);
+    assert_eq!(Au(110).to_nearest_pixel(2.), 2.);
+    assert_eq!(Au(120).to_nearest_pixel(2.), 2.);
+
+    assert_eq!(Au(300).to_f32_px(), 5.);
+    assert_eq!(Au(312).to_f32_px(), 5.2);
+    assert_eq!(Au(330).to_f32_px(), 5.5);
+    assert_eq!(Au(348).to_f32_px(), 5.8);
+    assert_eq!(Au(360).to_f32_px(), 6.);
+
+    assert_eq!(Au(300).to_f64_px(), 5.);
+    assert_eq!(Au(312).to_f64_px(), 5.2);
+    assert_eq!(Au(330).to_f64_px(), 5.5);
+    assert_eq!(Au(348).to_f64_px(), 5.8);
+    assert_eq!(Au(360).to_f64_px(), 6.);
+
+    assert_eq!(Au::from_f32_px(5.), Au(300));
+    assert_eq!(Au::from_f32_px(5.2), Au(312));
+    assert_eq!(Au::from_f32_px(5.5), Au(330));
+    assert_eq!(Au::from_f32_px(5.8), Au(348));
+    assert_eq!(Au::from_f32_px(6.), Au(360));
+
+    assert_eq!(Au::from_f64_px(5.), Au(300));
+    assert_eq!(Au::from_f64_px(5.2), Au(312));
+    assert_eq!(Au::from_f64_px(5.5), Au(330));
+    assert_eq!(Au::from_f64_px(5.8), Au(348));
+    assert_eq!(Au::from_f64_px(6.), Au(360));
+}
