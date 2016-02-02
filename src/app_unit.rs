@@ -13,7 +13,7 @@ use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
 pub const AU_PER_PX: i32 = 60;
 
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Eq, Ord)]
-#[cfg_attr(feature = "plugins", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "plugins", derive(Deserialize, HeapSizeOf, Serialize))]
 pub struct Au(pub i32);
 
 impl Default for Au {
