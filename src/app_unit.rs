@@ -13,7 +13,7 @@ use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
 pub const AU_PER_PX: i32 = 60;
 
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Eq, Ord)]
-#[cfg_attr(feature = "plugins", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "plugins", derive(Deserialize, HeapSizeOf, Serialize))]
 pub struct Au(pub i32);
 
 impl Default for Au {
@@ -254,4 +254,12 @@ fn convert() {
     assert_eq!(Au::from_f64_px(5.5), Au(330));
     assert_eq!(Au::from_f64_px(5.8), Au(348));
     assert_eq!(Au::from_f64_px(6.), Au(360));
+}
+
+#[cfg(feature = "plugins")]
+#[test]
+fn heapsize() {
+    use heapsize::HeapSizeOf;
+    fn f<T: HeapSizeOf>(_: T) {}
+    f(Au::new(0));
 }
