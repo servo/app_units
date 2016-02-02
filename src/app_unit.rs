@@ -255,3 +255,11 @@ fn convert() {
     assert_eq!(Au::from_f64_px(5.8), Au(348));
     assert_eq!(Au::from_f64_px(6.), Au(360));
 }
+
+#[cfg(feature = "plugins")]
+#[test]
+fn heapsize() {
+    use heapsize::HeapSizeOf;
+    fn f<T: HeapSizeOf>(_: T) {}
+    f(Au::new(0));
+}
