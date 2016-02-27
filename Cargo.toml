@@ -1,6 +1,6 @@
 [package]
 name = "app_units"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["The Servo Project Developers"]
 description = "Servo app units type (Au)"
 documentation = "http://doc.servo.org/app_units/"
@@ -12,15 +12,15 @@ default = []
 plugins = ["heapsize", "heapsize_plugin", "serde", "serde_macros", "euclid/plugins"]
 
 [dependencies]
-serde = {version = "0.6", optional = true}
-serde_macros = {version = "0.6", optional = true}
+serde = {version = "0.7", optional = true}
+serde_macros = {version = "0.7", optional = true}
 rustc-serialize = "0.3"
-euclid = "0.6.1"
+euclid = "0.6.2"
 
 [dependencies.heapsize]
 version = ">=0.2.2, <0.4"
 optional = true
 
 [dependencies.heapsize_plugin]
-version = "0.1.2"
+version = "0.1.4"
 optional = true
