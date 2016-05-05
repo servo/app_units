@@ -7,7 +7,7 @@ use rustc_serialize::{Encodable, Encoder};
 use std::default::Default;
 use std::fmt;
 use std::i32;
-use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
 
 /// The number of app units in a pixel.
 pub const AU_PER_PX: i32 = 60;
@@ -97,6 +97,34 @@ impl Neg for Au {
     #[inline]
     fn neg(self) -> Au {
         Au(-self.0)
+    }
+}
+
+impl AddAssign for Au {
+    #[inline]
+    fn add_assign(&mut self, other: Au) {
+        *self = *self + other;
+    }
+}
+
+impl SubAssign for Au {
+    #[inline]
+    fn sub_assign(&mut self, other: Au) {
+        *self = *self - other;
+    }
+}
+
+impl MulAssign<i32> for Au {
+    #[inline]
+    fn mul_assign(&mut self, other: i32) {
+        *self = *self * other;
+    }
+}
+
+impl DivAssign<i32> for Au {
+    #[inline]
+    fn div_assign(&mut self, other: i32) {
+        *self = *self / other;
     }
 }
 
