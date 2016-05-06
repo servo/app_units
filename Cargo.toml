@@ -9,13 +9,13 @@ license = "MPL-2.0"
 
 [features]
 default = []
-plugins = ["heapsize", "heapsize_plugin", "serde", "serde_macros", "euclid/plugins"]
+plugins = ["heapsize", "heapsize_plugin", "serde", "serde_macros"]
 
 [dependencies]
 serde = {version = ">=0.6, <0.8", optional = true}
 serde_macros = {version = ">=0.6, <0.8", optional = true}
 rustc-serialize = "0.3"
-euclid = "0.6.2"
+num-traits = "0.1.32"
 
 [dependencies.heapsize]
 version = ">=0.2.2, <0.4"
