@@ -1,6 +1,6 @@
 [package]
 name = "app_units"
-version = "0.2.4"
+version = "0.2.5"
 authors = ["The Servo Project Developers"]
 description = "Servo app units type (Au)"
 documentation = "http://doc.servo.org/app_units/"
@@ -13,6 +13,6 @@ plugins = []
 
 [dependencies]
 heapsize = ">=0.2.2, <0.4"
-serde = ">=0.6, <0.8"
-rustc-serialize = "0.3"
 num-traits = "0.1.32"
+rustc-serialize = "0.3"
+serde = ">=0.6, <0.8"
