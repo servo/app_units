@@ -2,8 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+use heapsize::HeapSizeOf;
 use num_traits::Zero;
 use rustc_serialize::{Encodable, Encoder};
+use serde::de::{Deserialize, Deserializer};
+use serde::ser::{Serialize, Serializer};
 use std::default::Default;
 use std::fmt;
 use std::i32;
@@ -13,8 +16,23 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, Su
 pub const AU_PER_PX: i32 = 60;
 
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Eq, Ord)]
-#[cfg_attr(feature = "plugins", derive(Deserialize, HeapSizeOf, Serialize))]
 pub struct Au(pub i32);
+
+impl HeapSizeOf for Au {
+    fn heap_size_of_children(&self) -> usize { 0 }
+}
+
+impl Deserialize for Au {
+    fn deserialize<D: Deserializer>(deserializer: &mut D) -> Result<Au, D::Error> {
+        Ok(Au(try!(i32::deserialize(deserializer))))
+    }
+}
+
+impl Serialize for Au {
+    fn serialize<S: Serializer>(&self, serializer: &mut S) -> Result<(), S::Error> {
+        self.0.serialize(serializer)
+    }
+}
 
 impl Default for Au {
     #[inline]
