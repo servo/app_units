@@ -9,9 +9,7 @@
 #![cfg_attr(feature = "plugins", feature(plugin))]
 #![cfg_attr(feature = "plugins", feature(custom_derive))]
 #![cfg_attr(feature = "plugins", plugin(serde_macros))]
-#![cfg_attr(feature = "plugins", plugin(heapsize_plugin))]
 
-#[cfg(feature = "plugins")]
 extern crate heapsize;
 extern crate num_traits;
 extern crate rustc_serialize;

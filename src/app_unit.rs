@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+use heapsize::HeapSizeOf;
 use num_traits::Zero;
 use rustc_serialize::{Encodable, Encoder};
 use std::default::Default;
@@ -13,8 +14,12 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, Su
 pub const AU_PER_PX: i32 = 60;
 
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Eq, Ord)]
-#[cfg_attr(feature = "plugins", derive(Deserialize, HeapSizeOf, Serialize))]
+#[cfg_attr(feature = "plugins", derive(Deserialize, Serialize))]
 pub struct Au(pub i32);
+
+impl HeapSizeOf for Au {
+    fn heap_size_of_children(&self) -> usize { 0 }
+}
 
 impl Default for Au {
     #[inline]
