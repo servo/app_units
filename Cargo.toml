@@ -15,4 +15,4 @@ plugins = []
 heapsize = ">=0.2.2, <0.4"
 num-traits = "0.1.32"
 rustc-serialize = "0.3"
-serde = ">=0.6, <0.8"
+serde = "0.8"
