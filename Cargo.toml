@@ -12,7 +12,7 @@ default = []
 plugins = []
 
 [dependencies]
-heapsize = ">=0.2.2, <0.4"
+heapsize = "0.3"
 num-traits = "0.1.32"
 rustc-serialize = "0.3"
 serde = "0.8"
