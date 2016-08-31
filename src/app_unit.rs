@@ -19,7 +19,9 @@ pub const AU_PER_PX: i32 = 60;
 pub struct Au(pub i32);
 
 impl HeapSizeOf for Au {
-    fn heap_size_of_children(&self) -> usize { 0 }
+    fn heap_size_of_children(&self) -> usize {
+        0
+    }
 }
 
 impl Deserialize for Au {
@@ -84,7 +86,6 @@ impl Sub for Au {
     fn sub(self, other: Au) -> Au {
         Au(self.0.wrapping_sub(other.0))
     }
-
 }
 
 impl Mul<i32> for Au {
