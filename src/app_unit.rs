@@ -23,13 +23,13 @@ impl HeapSizeOf for Au {
 }
 
 impl Deserialize for Au {
-    fn deserialize<D: Deserializer>(deserializer: &mut D) -> Result<Au, D::Error> {
+    fn deserialize<D: Deserializer>(deserializer: D) -> Result<Au, D::Error> {
         Ok(Au(try!(i32::deserialize(deserializer))))
     }
 }
 
 impl Serialize for Au {
-    fn serialize<S: Serializer>(&self, serializer: &mut S) -> Result<(), S::Error> {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         self.0.serialize(serializer)
     }
 }
