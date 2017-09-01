@@ -199,6 +199,13 @@ impl Au {
     }
 
     #[inline]
+    /// Scale, but round down (useful for viewport-relative units)
+    pub fn scale_by_trunc(self, factor: f32) -> Au {
+        let new_float = ((self.0 as f64) * factor as f64).floor();
+        Au::clamp_from_f64_au(new_float)
+    }
+
+    #[inline]
     fn clamp_from_f64_au(float: f64) -> Self {
         // We *must* operate in f64. f32 isn't precise enough
         // to handle MAX_AU
@@ -303,6 +310,7 @@ fn scale() {
     assert_eq!(Au(12).scale_by(1.5), Au(18));
     assert_eq!(Au(12).scale_by(1.7), Au(20));
     assert_eq!(Au(12).scale_by(1.8), Au(22));
+    assert_eq!(Au(12).scale_by_trunc(1.8), Au(21));
 }
 
 #[test]
