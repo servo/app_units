@@ -199,9 +199,9 @@ impl Au {
     }
 
     #[inline]
-    /// Scale, but round down (useful for viewport-relative units)
+    /// Scale, but truncate (useful for viewport-relative units)
     pub fn scale_by_trunc(self, factor: f32) -> Au {
-        let new_float = ((self.0 as f64) * factor as f64).floor();
+        let new_float = ((self.0 as f64) * factor as f64).trunc();
         Au::from_f64_au(new_float)
     }
 
