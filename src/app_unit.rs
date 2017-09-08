@@ -189,7 +189,7 @@ impl Au {
 
     #[inline]
     fn clamp_self(&mut self) {
-        *self = self.clamp()
+        *self = Au::clamp(*self)
     }
 
     #[inline]
