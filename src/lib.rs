@@ -7,7 +7,6 @@
 //! See <https://bugzilla.mozilla.org/show_bug.cgi?id=177805> for more info.
 
 extern crate num_traits;
-extern crate rustc_serialize;
 extern crate serde;
 
 mod app_unit;

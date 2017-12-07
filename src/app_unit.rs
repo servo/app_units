@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 use num_traits::Zero;
-use rustc_serialize::{Encodable, Encoder};
 use serde::de::{Deserialize, Deserializer};
 use serde::ser::{Serialize, Serializer};
 use std::default::Default;
@@ -58,12 +57,6 @@ impl Zero for Au {
 // after the operation. Gecko uses the same min/max values
 pub const MAX_AU: Au = Au((1 << 30) - 1);
 pub const MIN_AU: Au = Au(- ((1 << 30) - 1));
-
-impl Encodable for Au {
-    fn encode<S: Encoder>(&self, e: &mut S) -> Result<(), S::Error> {
-        e.emit_f64(self.to_f64_px())
-    }
-}
 
 impl fmt::Debug for Au {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
