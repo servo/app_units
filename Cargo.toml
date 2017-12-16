@@ -3,7 +3,7 @@ name = "app_units"
 version = "0.6.1"
 authors = ["The Servo Project Developers"]
 description = "Servo app units type (Au)"
-documentation = "http://doc.servo.org/app_units/"
+documentation = "https://docs.rs/app_units/"
 repository = "https://github.com/servo/app_units"
 license = "MPL-2.0"
 
