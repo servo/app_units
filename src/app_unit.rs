@@ -15,10 +15,10 @@ pub const AU_PER_PX: i32 = 60;
 
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Eq, Ord)]
 /// An App Unit, the fundamental unit of length in Servo. Usually
-/// 1/60th of a pixel (see AU_PER_PX)
+/// 1/60th of a pixel (see `AU_PER_PX`)
 ///
-/// Please ensure that the values are between MIN_AU and MAX_AU.
-/// It is safe to construct invalid Au values, but it may lead to
+/// Please ensure that the values are between `MIN_AU` and `MAX_AU`.
+/// It is safe to construct invalid `Au` values, but it may lead to
 /// panics and overflows.
 pub struct Au(pub i32);
 
