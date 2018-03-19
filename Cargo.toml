@@ -1,6 +1,6 @@
 [package]
 name = "app_units"
-version = "0.6.1"
+version = "0.7.0"
 authors = ["The Servo Project Developers"]
 description = "Servo app units type (Au)"
 documentation = "https://docs.rs/app_units/"
@@ -8,5 +8,5 @@ repository = "https://github.com/servo/app_units"
 license = "MPL-2.0"
 
 [dependencies]
-num-traits = "0.1.32"
+num-traits = "0.2"
 serde = "1.0"
