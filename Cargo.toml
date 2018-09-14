@@ -1,6 +1,6 @@
 [package]
 name = "app_units"
-version = "0.7.0"
+version = "0.7.1"
 authors = ["The Servo Project Developers"]
 description = "Servo app units type (Au)"
 documentation = "https://docs.rs/app_units/"
