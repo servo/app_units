@@ -6,6 +6,7 @@ description = "Servo app units type (Au)"
 documentation = "https://docs.rs/app_units/"
 repository = "https://github.com/servo/app_units"
 license = "MPL-2.0"
+edition = "2021"
 
 [dependencies]
 num-traits = { version = "0.2", optional = true }
