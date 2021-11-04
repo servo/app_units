@@ -10,7 +10,7 @@ edition = "2021"
 
 [dependencies]
 num-traits = { version = "0.2", optional = true }
-serde = { version = "1.0", optional = true }
+serde = { version = "1.0", optional = true, features = ["derive"] }
 
 [features]
 default = ["num_traits", "serde_serialization"]

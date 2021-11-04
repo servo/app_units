@@ -5,7 +5,7 @@
 #[cfg(feature = "num_traits")]
 use num_traits::Zero;
 #[cfg(feature = "serde_serialization")]
-use serde::{ser::{Serialize, Serializer}, de::{Deserialize, Deserializer}};
+use serde::{Serialize, Deserialize, Deserializer};
 
 use std::{fmt, i32, default::Default, ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, SubAssign}};
 
@@ -20,6 +20,7 @@ pub const MAX_AU: Au = Au((1 << 30) - 1);
 
 
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Eq, Ord, Default)]
+#[cfg_attr(feature = "serde_serialization", derive(Serialize))]
 /// An App Unit, the fundamental unit of length in Servo. Usually
 /// 1/60th of a pixel (see `AU_PER_PX`)
 ///
@@ -28,17 +29,16 @@ pub const MAX_AU: Au = Au((1 << 30) - 1);
 /// panics and overflows.
 pub struct Au(pub i32);
 
-#[cfg(feature = "serde_serialization")]
-impl<'de> Deserialize<'de> for Au {
-    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Au, D::Error> {
-        Ok(Au(i32::deserialize(deserializer)?).clamp())
+impl fmt::Debug for Au {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}px", self.to_f64_px())
     }
 }
 
 #[cfg(feature = "serde_serialization")]
-impl Serialize for Au {
-    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        self.0.serialize(serializer)
+impl<'de> Deserialize<'de> for Au {
+    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Au, D::Error> {
+        Ok(Au(i32::deserialize(deserializer)?).clamp())
     }
 }
 
@@ -52,12 +52,6 @@ impl Zero for Au {
     #[inline]
     fn is_zero(&self) -> bool {
         self.0 == 0
-    }
-}
-
-impl fmt::Debug for Au {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}px", self.to_f64_px())
     }
 }
 
@@ -210,11 +204,8 @@ impl Au {
 
     #[inline]
     pub fn from_f64_au(float: f64) -> Self {
-        // We *must* operate in f64. f32 isn't precise enough
-        // to handle MAX_AU
-        Au(float.min(MAX_AU.0 as f64)
-                .max(MIN_AU.0 as f64)
-            as i32)
+        // We *must* operate in f64. f32 isn't precise enough to handle MAX_AU
+        Au(float.clamp(MIN_AU.0 as f64, MAX_AU.0 as f64) as i32)
     }
 
     #[inline]
@@ -222,7 +213,7 @@ impl Au {
         Au(px) * AU_PER_PX
     }
 
-    /// Rounds this app unit down to the pixel towards zero and returns it.
+    /// Round this app unit down to the pixel towards zero and return it.
     #[inline]
     pub fn to_px(self) -> i32 {
         self.0 / AU_PER_PX
