@@ -12,13 +12,21 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: stsable
+          toolchain: stable
           override: true
           profile: minimal
       - uses: actions-rs/cargo@v1
         with:
           command: test
           
+      - uses: actions-rs/cargo@v1
+        with:
+          command: check --features="serde_serialization"
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: check --features="num_traits"
+
   build_result:
     name: homu build finished
     runs-on: ubuntu-latest
