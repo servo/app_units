@@ -15,17 +15,14 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
+      - name: Test
+        run: cargo test
           
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check --features="serde_serialization"
+      - name: Serde check
+        run: cargo check --features="serde_serialization"
 
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check --features="num_traits"
+      - name: Num traits check
+        run: cargo check --features="num_traits"
 
   build_result:
     name: homu build finished
