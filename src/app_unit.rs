@@ -19,6 +19,7 @@ pub const MIN_AU: Au = Au(- ((1 << 30) - 1));
 pub const MAX_AU: Au = Au((1 << 30) - 1);
 
 
+#[repr(transparent)]
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Eq, Ord, Default)]
 #[cfg_attr(feature = "serde_serialization", derive(Serialize))]
 /// An App Unit, the fundamental unit of length in Servo. Usually
