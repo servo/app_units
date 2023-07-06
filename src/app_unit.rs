@@ -383,3 +383,10 @@ fn convert() {
     assert_eq!(Au::from_f64_px(6.12), Au(367));
     assert_eq!(Au::from_f64_px(6.13), Au(368));
 }
+
+#[cfg(feature ="serde_serialization")]
+#[test]
+fn serialize() {
+    let serialized = ron::to_string(&Au(42)).unwrap();
+    assert_eq!(ron::from_str(&serialized), Ok(Au(42)));
+}
