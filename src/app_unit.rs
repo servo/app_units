@@ -21,7 +21,7 @@ pub const MAX_AU: Au = Au((1 << 30) - 1);
 
 #[repr(transparent)]
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Eq, Ord, Default)]
-#[cfg_attr(feature = "serde_serialization", derive(Serialize))]
+#[cfg_attr(feature = "serde_serialization", derive(Serialize), serde(transparent))]
 /// An App Unit, the fundamental unit of length in Servo. Usually
 /// 1/60th of a pixel (see `AU_PER_PX`)
 ///
