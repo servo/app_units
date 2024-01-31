@@ -5,20 +5,23 @@
 #[cfg(feature = "num_traits")]
 use num_traits::Zero;
 #[cfg(feature = "serde_serialization")]
-use serde::{Serialize, Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, Serialize};
 
-use std::{fmt, i32, default::Default, ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, SubAssign}};
 use std::iter::Sum;
+use std::{
+    default::Default,
+    fmt, i32,
+    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, SubAssign},
+};
 
 /// The number of app units in a pixel.
 pub const AU_PER_PX: i32 = 60;
 /// The minimum number of app units, same as in Gecko.
-pub const MIN_AU: Au = Au(- ((1 << 30) - 1));
+pub const MIN_AU: Au = Au(-((1 << 30) - 1));
 /// The maximum number of app units, same as in Gecko.
-/// 
+///
 /// (1 << 30) - 1 lets us add/subtract two Au and check for overflow after the operation.
 pub const MAX_AU: Au = Au((1 << 30) - 1);
-
 
 #[repr(transparent)]
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Eq, Ord, Default)]
@@ -73,7 +76,6 @@ impl Sub for Au {
     fn sub(self, other: Au) -> Au {
         Au(self.0 - other.0).clamp()
     }
-
 }
 
 impl Mul<Au> for i32 {
@@ -391,7 +393,7 @@ fn convert() {
     assert_eq!(Au::from_f64_px(6.13), Au(368));
 }
 
-#[cfg(feature ="serde_serialization")]
+#[cfg(feature = "serde_serialization")]
 #[test]
 fn serialize() {
     let serialized = ron::to_string(&Au(42)).unwrap();
