@@ -8,6 +8,7 @@ use num_traits::Zero;
 use serde::{Serialize, Deserialize, Deserializer};
 
 use std::{fmt, i32, default::Default, ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, SubAssign}};
+use std::iter::Sum;
 
 /// The number of app units in a pixel.
 pub const AU_PER_PX: i32 = 60;
@@ -175,6 +176,12 @@ impl DivAssign<i32> for Au {
     #[inline]
     fn div_assign(&mut self, other: i32) {
         *self = (*self / other).clamp();
+    }
+}
+
+impl<'a> Sum<&'a Self> for Au {
+    fn sum<I: Iterator<Item = &'a Self>>(iter: I) -> Self {
+        iter.fold(Self::zero(), |a, b| a + *b)
     }
 }
 
