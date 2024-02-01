@@ -185,6 +185,12 @@ impl<'a> Sum<&'a Self> for Au {
     }
 }
 
+impl<'a> Sum<Self> for Au {
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        iter.fold(Self::zero(), |a, b| a + b)
+    }
+}
+
 impl Au {
     /// FIXME(pcwalton): Workaround for lack of cross crate inlining of newtype structs!
     #[inline]
