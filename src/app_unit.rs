@@ -277,6 +277,16 @@ impl Au {
     pub fn abs(self) -> Self {
         Au(self.0.abs())
     }
+
+    #[inline]
+    pub fn max_assign(&mut self, other: Self) {
+        *self = (*self).max(other);
+    }
+
+    #[inline]
+    pub fn min_assign(&mut self, other: Self) {
+        *self = (*self).min(other);
+    }
 }
 
 #[test]
@@ -397,6 +407,44 @@ fn convert() {
     assert_eq!(Au::from_f64_px(6.), Au(360));
     assert_eq!(Au::from_f64_px(6.12), Au(367));
     assert_eq!(Au::from_f64_px(6.13), Au(368));
+}
+
+#[test]
+fn max_assign() {
+    let mut au = Au(5);
+    au.max_assign(Au(10));
+    assert_eq!(au, Au(10));
+
+    let mut au = Au(5);
+    au.max_assign(Au(-10));
+    assert_eq!(au, Au(5));
+
+    let mut au = Au(100);
+    au.max_assign(MAX_AU);
+    assert_eq!(au, MAX_AU);
+
+    let mut au = Au(-100);
+    au.max_assign(MAX_AU);
+    assert_eq!(au, MAX_AU);
+}
+
+#[test]
+fn min_assign() {
+    let mut au = Au(5);
+    au.min_assign(Au(10));
+    assert_eq!(au, Au(5));
+
+    let mut au = Au(5);
+    au.min_assign(Au(-10));
+    assert_eq!(au, Au(-10));
+
+    let mut au = Au(100);
+    au.min_assign(MAX_AU);
+    assert_eq!(au, Au(100));
+
+    let mut au = Au(-100);
+    au.min_assign(MAX_AU);
+    assert_eq!(au, Au(-100));
 }
 
 #[cfg(feature = "serde_serialization")]
