@@ -290,9 +290,10 @@ impl Au {
 }
 
 #[cfg(feature = "num_traits")]
+// Note:
+//   - Conversions to isize and i128 are done implicitly based on the i64 impl
+//   - Conversions to other uint types are done implicitly based on the u64 impl
 impl num_traits::ToPrimitive for Au {
-    // Float conversions
-
     #[inline]
     fn to_f32(&self) -> Option<f32> {
         Some(self.to_f32_px())
@@ -302,8 +303,6 @@ impl num_traits::ToPrimitive for Au {
     fn to_f64(&self) -> Option<f64> {
         Some(self.to_f64_px())
     }
-
-    // Signed int conversions
 
     #[inline]
     fn to_i8(&self) -> Option<i8> {
@@ -326,44 +325,7 @@ impl num_traits::ToPrimitive for Au {
     }
 
     #[inline]
-    fn to_i128(&self) -> Option<i128> {
-        Some(self.to_px() as i128)
-    }
-
-    #[inline]
-    fn to_isize(&self) -> Option<isize> {
-        Some(self.to_px() as isize)
-    }
-
-    // Unsigned int conversions
-
-    #[inline]
-    fn to_u8(&self) -> Option<u8> {
-        None
-    }
-
-    #[inline]
-    fn to_u16(&self) -> Option<u16> {
-        None
-    }
-
-    #[inline]
-    fn to_u32(&self) -> Option<u32> {
-        None
-    }
-
-    #[inline]
     fn to_u64(&self) -> Option<u64> {
-        None
-    }
-
-    #[inline]
-    fn to_u128(&self) -> Option<u128> {
-        None
-    }
-
-    #[inline]
-    fn to_usize(&self) -> Option<usize> {
         None
     }
 }
