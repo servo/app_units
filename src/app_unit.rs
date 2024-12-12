@@ -539,3 +539,27 @@ fn serialize() {
     let serialized = ron::to_string(&Au(42)).unwrap();
     assert_eq!(ron::from_str(&serialized), Ok(Au(42)));
 }
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn euclid_cast_au_to_f32() {
+    use euclid::default::Size2D;
+    let size_au: Size2D<Au> = Size2D::new(Au::new(20), Au::new(30));
+    let size_f32_manual: Size2D<f32> =
+        Size2D::new(Au::new(20).to_f32_px(), Au::new(30).to_f32_px());
+    let size_f32_cast: Size2D<f32> = size_au.cast();
+
+    assert_eq!(size_f32_manual, size_f32_cast);
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn euclid_cast_f32_to_au() {
+    use euclid::default::Size2D;
+    let size_f32: Size2D<f32> = Size2D::new(3.1456, 245.043656);
+    let size_au_manual: Size2D<Au> =
+        Size2D::new(Au::from_f32_px(3.1456), Au::from_f32_px(245.043656));
+    let size_au_cast: Size2D<Au> = size_f32.cast();
+
+    assert_eq!(size_au_manual, size_au_cast);
+}
