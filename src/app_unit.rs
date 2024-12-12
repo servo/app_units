@@ -289,6 +289,54 @@ impl Au {
     }
 }
 
+#[cfg(feature = "num_traits")]
+// Note:
+//   - Conversions to isize and i128 are done implicitly based on the i64 impl
+//   - Conversions to other uint types are done implicitly based on the u64 impl
+impl num_traits::ToPrimitive for Au {
+    #[inline]
+    fn to_f32(&self) -> Option<f32> {
+        Some(self.to_f32_px())
+    }
+
+    #[inline]
+    fn to_f64(&self) -> Option<f64> {
+        Some(self.to_f64_px())
+    }
+
+    #[inline]
+    fn to_i8(&self) -> Option<i8> {
+        None
+    }
+
+    #[inline]
+    fn to_i16(&self) -> Option<i16> {
+        None
+    }
+
+    #[inline]
+    fn to_i32(&self) -> Option<i32> {
+        Some(self.to_px())
+    }
+
+    #[inline]
+    fn to_i64(&self) -> Option<i64> {
+        Some(self.to_px() as i64)
+    }
+
+    #[inline]
+    fn to_u64(&self) -> Option<u64> {
+        None
+    }
+}
+
+#[cfg(feature = "num_traits")]
+impl num_traits::NumCast for Au {
+    fn from<T: num_traits::ToPrimitive>(n: T) -> Option<Self> {
+        n.to_f64().map(Self::from_f64_px)
+    }
+}
+
 #[test]
 fn create() {
     assert_eq!(Au::zero(), Au(0));
@@ -452,4 +500,66 @@ fn min_assign() {
 fn serialize() {
     let serialized = ron::to_string(&Au(42)).unwrap();
     assert_eq!(ron::from_str(&serialized), Ok(Au(42)));
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn cast_au_u64() {
+    let val: Au = Au::new(120);
+    let cast: Option<u64> = num_traits::NumCast::from(val);
+    assert_eq!(cast, None)
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn cast_au_i16() {
+    let val: Au = Au::new(120);
+    let cast: Option<i16> = num_traits::NumCast::from(val);
+    assert_eq!(cast, None)
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn cast_au_i64() {
+    let val: Au = Au::new(120);
+    let cast: Option<i64> = num_traits::NumCast::from(val);
+    assert_eq!(cast, Some(2))
+}
+
+#[test]
+fn cast_au_f32() {
+    let val: Au = Au::new(120);
+    let cast: Option<f32> = num_traits::NumCast::from(val);
+    assert_eq!(cast, Some(2.0))
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn cast_au_f64() {
+    let val: Au = Au::new(120);
+    let cast: Option<f64> = num_traits::NumCast::from(val);
+    assert_eq!(cast, Some(2.0))
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn euclid_cast_au_to_f32() {
+    use euclid::default::Size2D;
+    let size_au: Size2D<Au> = Size2D::new(Au::new(20 * 60), Au::new(30 * 60));
+    let size_f32_manual: Size2D<f32> = Size2D::new(20.0, 30.0);
+    let size_f32_cast: Size2D<f32> = size_au.cast();
+
+    assert_eq!(size_f32_manual, size_f32_cast);
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn euclid_cast_f32_to_au() {
+    use euclid::default::Size2D;
+    let size_f32: Size2D<f32> = Size2D::new(3.1456, 245.043656);
+    let size_au_manual: Size2D<Au> =
+        Size2D::new(Au::from_f32_px(3.1456), Au::from_f32_px(245.043656));
+    let size_au_cast: Size2D<Au> = size_f32.cast();
+
+    assert_eq!(size_au_manual, size_au_cast);
 }
