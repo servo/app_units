@@ -10,7 +10,7 @@ use serde::{Deserialize, Deserializer, Serialize};
 use std::iter::Sum;
 use std::{
     default::Default,
-    fmt, i32,
+    fmt,
     ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, Sub, SubAssign},
 };
 
