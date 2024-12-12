@@ -504,11 +504,49 @@ fn serialize() {
 
 #[cfg(feature = "num_traits")]
 #[test]
+fn cast_au_u64() {
+    let val: Au = Au::new(120);
+    let cast: Option<u64> = num_traits::NumCast::from(val);
+    assert_eq!(cast, None)
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn cast_au_i16() {
+    let val: Au = Au::new(120);
+    let cast: Option<i16> = num_traits::NumCast::from(val);
+    assert_eq!(cast, None)
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn cast_au_i64() {
+    let val: Au = Au::new(120);
+    let cast: Option<i64> = num_traits::NumCast::from(val);
+    assert_eq!(cast, Some(2))
+}
+
+#[test]
+fn cast_au_f32() {
+    let val: Au = Au::new(120);
+    let cast: Option<f32> = num_traits::NumCast::from(val);
+    assert_eq!(cast, Some(2.0))
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
+fn cast_au_f64() {
+    let val: Au = Au::new(120);
+    let cast: Option<f64> = num_traits::NumCast::from(val);
+    assert_eq!(cast, Some(2.0))
+}
+
+#[cfg(feature = "num_traits")]
+#[test]
 fn euclid_cast_au_to_f32() {
     use euclid::default::Size2D;
-    let size_au: Size2D<Au> = Size2D::new(Au::new(20), Au::new(30));
-    let size_f32_manual: Size2D<f32> =
-        Size2D::new(Au::new(20).to_f32_px(), Au::new(30).to_f32_px());
+    let size_au: Size2D<Au> = Size2D::new(Au::new(20 * 60), Au::new(30 * 60));
+    let size_f32_manual: Size2D<f32> = Size2D::new(20.0, 30.0);
     let size_f32_cast: Size2D<f32> = size_au.cast();
 
     assert_eq!(size_f32_manual, size_f32_cast);
