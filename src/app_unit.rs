@@ -274,6 +274,18 @@ impl Au {
     }
 
     #[inline]
+    pub fn from_f32_px_truncate(px: f32) -> Au {
+        let float = (px * AU_PER_PX as f32).floor();
+        Au::from_f64_au(float as f64)
+    }
+
+    #[inline]
+    pub fn from_f64_px_truncate(px: f64) -> Au {
+        let float = (px * AU_PER_PX as f64).floor();
+        Au::from_f64_au(float)
+    }
+
+    #[inline]
     pub fn abs(self) -> Self {
         Au(self.0.abs())
     }
@@ -407,6 +419,22 @@ fn convert() {
     assert_eq!(Au::from_f64_px(6.), Au(360));
     assert_eq!(Au::from_f64_px(6.12), Au(367));
     assert_eq!(Au::from_f64_px(6.13), Au(368));
+
+    assert_eq!(Au::from_f32_px_truncate(5.0), Au(300));
+    assert_eq!(Au::from_f32_px_truncate(5.2), Au(312));
+    assert_eq!(Au::from_f32_px_truncate(5.5), Au(330));
+    assert_eq!(Au::from_f32_px_truncate(5.8), Au(348));
+    assert_eq!(Au::from_f32_px_truncate(6.), Au(360));
+    assert_eq!(Au::from_f32_px_truncate(6.12), Au(367));
+    assert_eq!(Au::from_f32_px_truncate(6.13), Au(367));
+
+    assert_eq!(Au::from_f64_px_truncate(5.), Au(300));
+    assert_eq!(Au::from_f64_px_truncate(5.2), Au(312));
+    assert_eq!(Au::from_f64_px_truncate(5.5), Au(330));
+    assert_eq!(Au::from_f64_px_truncate(5.8), Au(348));
+    assert_eq!(Au::from_f64_px_truncate(6.), Au(360));
+    assert_eq!(Au::from_f64_px_truncate(6.12), Au(367));
+    assert_eq!(Au::from_f64_px_truncate(6.13), Au(367));
 }
 
 #[test]
