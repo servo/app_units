@@ -11,13 +11,14 @@ jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
           profile: minimal
-      - name: Check Formatting 
+          components: rustfmt
+      - name: Check Formatting
         run: cargo fmt --check
       - name: Test
         run: cargo test
@@ -25,6 +26,8 @@ jobs:
         run: cargo check --features="serde_serialization"
       - name: Check (`--features="num_traits"`)
         run: cargo check --features="num_traits"
+      - name: Check (`--features="to_css"`)
+        run: cargo check --features="to_css"
 
   build_result:
     name: Result
