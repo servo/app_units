@@ -52,6 +52,17 @@ impl<'de> Deserialize<'de> for Au {
     }
 }
 
+#[cfg(feature = "to_css")]
+impl cssparser::ToCss for Au {
+    fn to_css<W>(&self, dest: &mut W) -> fmt::Result
+    where
+        W: fmt::Write,
+    {
+        self.to_f64_px().to_css(dest)?;
+        dest.write_str("px")
+    }
+}
+
 #[cfg(feature = "num_traits")]
 impl Zero for Au {
     #[inline]
